@@ -1,0 +1,36 @@
+name: Auto Label Issues
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check issue body for severity
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue
+            const body = issue.body
+            const labels = []
+
+            if (body.includes("Low")) {
+              labels.push("severity: low")
+            } else if (body.includes("Medium")) {
+              labels.push("severity: medium")
+            } else if (body.includes("High")) {
+              labels.push("severity: high")
+            } else if (body.includes("Critical")) {
+              labels.push("severity: critical")
+            }
+
+            if (labels.length > 0) {
+              github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: labels
+              })
+            }

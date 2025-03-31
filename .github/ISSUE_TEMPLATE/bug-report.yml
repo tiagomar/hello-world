@@ -1,0 +1,21 @@
+name: Bug Report
+description: Report a bug in the project
+title: "[Bug]: "
+labels: ["bug"]  # Default label
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
+      description: "Select the severity of the bug"
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description"
+      description: "Describe the bug in detail."
+      placeholder: "Explain what happened..."
